@@ -160,23 +160,28 @@ export default function StudyMaterials() {
   }
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Brain className="h-5 w-5" />
+    <div className="space-y-8">
+      <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm">
+        <CardHeader className="text-center pb-6">
+          <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-gradient-secondary flex items-center justify-center">
+            <Brain className="h-8 w-8 text-white" />
+          </div>
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent">
             Generate Study Materials
           </CardTitle>
+          <p className="text-gray-600 mt-2 text-lg">
+            Transform your notes into flashcards, summaries, and quizzes with AI
+          </p>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <div>
-            <label className="block text-sm font-medium mb-2">Select Note</label>
+            <label className="block text-lg font-semibold mb-3 text-gray-700">Select Note</label>
             <select
               value={selectedNote}
               onChange={(e) => setSelectedNote(e.target.value)}
-              className="w-full p-2 border rounded-md"
+              className="w-full p-4 border-2 border-gray-200 rounded-xl text-base focus:border-pink-500 focus:ring-pink-500/20 transition-all duration-300"
             >
-              <option value="">Choose a note...</option>
+              <option value="">Choose a note to get started...</option>
               {notes.map((note) => (
                 <option key={note.id} value={note.id}>
                   {note.title}
@@ -185,29 +190,29 @@ export default function StudyMaterials() {
             </select>
           </div>
 
-          <div className="flex gap-2 flex-wrap">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Button
               onClick={() => generateMaterial("flashcard")}
               disabled={!selectedNote || isAnyGenerating}
-              variant="outline"
+              className="h-14 text-base font-semibold bg-gradient-success hover:shadow-lg hover:shadow-blue-500/25 border-0 rounded-xl transition-all duration-300"
             >
-              {loadingStates.flashcard ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              {loadingStates.flashcard ? <Loader2 className="mr-3 h-5 w-5 animate-spin" /> : null}
               Generate Flashcards
             </Button>
             <Button
               onClick={() => generateMaterial("summary")}
               disabled={!selectedNote || isAnyGenerating}
-              variant="outline"
+              className="h-14 text-base font-semibold bg-gradient-warning hover:shadow-lg hover:shadow-green-500/25 border-0 rounded-xl transition-all duration-300"
             >
-              {loadingStates.summary ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              {loadingStates.summary ? <Loader2 className="mr-3 h-5 w-5 animate-spin" /> : null}
               Generate Summary
             </Button>
             <Button 
               onClick={() => generateMaterial("quiz")} 
               disabled={!selectedNote || isAnyGenerating} 
-              variant="outline"
+              className="h-14 text-base font-semibold bg-gradient-secondary hover:shadow-lg hover:shadow-pink-500/25 border-0 rounded-xl transition-all duration-300"
             >
-              {loadingStates.quiz ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              {loadingStates.quiz ? <Loader2 className="mr-3 h-5 w-5 animate-spin" /> : null}
               Generate Quiz
             </Button>
           </div>
@@ -215,11 +220,28 @@ export default function StudyMaterials() {
       </Card>
 
       <Tabs defaultValue="flashcards" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="flashcards">Flashcards ({flashcards.length})</TabsTrigger>
-          <TabsTrigger value="summaries">Summaries ({summaries.length})</TabsTrigger>
-          <TabsTrigger value="quizzes">Quizzes ({quizzes.length})</TabsTrigger>
-        </TabsList>
+        <div className="flex justify-center mb-6">
+          <TabsList className="grid grid-cols-3 w-full max-w-xl h-14 bg-white/80 backdrop-blur-md border border-gray-200 rounded-2xl p-2">
+            <TabsTrigger 
+              value="flashcards" 
+              className="h-10 rounded-xl font-semibold text-gray-600 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+            >
+              🃏 Flashcards ({flashcards.length})
+            </TabsTrigger>
+            <TabsTrigger 
+              value="summaries"
+              className="h-10 rounded-xl font-semibold text-gray-600 data-[state=active]:bg-green-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+            >
+              📄 Summaries ({summaries.length})
+            </TabsTrigger>
+            <TabsTrigger 
+              value="quizzes"
+              className="h-10 rounded-xl font-semibold text-gray-600 data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300"
+            >
+              🧠 Quizzes ({quizzes.length})
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="flashcards" className="space-y-4">
           {flashcards.map((material) => (
